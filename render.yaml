@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: upi-offline-mesh
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: DATABASE_URL
+        fromDatabase:
+          name: upi-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: REDIS_URL
+        fromService:
+          name: upi-redis
+          type: redis
+          property: connectionString
+      - key: PORT
+        value: 8081
+    healthCheckPath: /actuator/health
+
+databases:
+  - name: upi-db
+    plan: free
+    databaseName: upimesh
+    user: upi
+
+  - name: upi-redis
+    plan: free
+    type: redis
