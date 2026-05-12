@@ -10,6 +10,6 @@ SELECT
     SUM(CASE WHEN status = 'SETTLED'  THEN 1 ELSE 0 END)                 AS settled_count,
     SUM(CASE WHEN status = 'REJECTED' THEN 1 ELSE 0 END)                 AS rejected_count,
     COALESCE(SUM(CASE WHEN status = 'SETTLED' THEN amount ELSE 0 END), 0) AS total_volume,
-    AVG(CASE WHEN status = 'SETTLED' THEN CAST(hop_count AS DOUBLE) END)  AS avg_hops
+    AVG(CASE WHEN status = 'SETTLED' THEN CAST(hop_count AS DOUBLE PRECISION) END)  AS avg_hops
 FROM transactions
 GROUP BY CAST(settled_at AS DATE);
